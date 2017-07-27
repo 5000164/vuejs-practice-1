@@ -8,7 +8,7 @@
 <body>
 
 <div id="app">
-    <input v-model="newTask" v-on:keyup.enter="addTask">
+    <input v-model="newTask" v-on:keyup.enter="addTask" id="input">
     <ul>
         <li v-for="(task, index) in tasks">{{ index }} {{ task }} <button v-on:click="removeTask(index)">remove</button></li>
     </ul>
@@ -31,6 +31,9 @@
             },
         },
     })
+
+    var input = document.getElementById('input');
+    input.focus();
 </script>
 
 </body>
