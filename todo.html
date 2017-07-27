@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+
+<div id="app">
+    <input v-model="newTask" v-on:keyup.enter="addTask" id="input">
+    <ul>
+        <li v-for="(task, index) in tasks">{{ index }} {{ task }} <button v-on:click="removeTask(index)">remove</button></li>
+    </ul>
+</div>
+
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            newTask: '',
+            tasks: [],
+        },
+        methods: {
+            addTask: function() {
+                this.tasks.push(this.newTask);
+                this.newTask = '';
+            },
+            removeTask: function(index) {
+                this.tasks.splice(index, 1)
+            },
+        },
+    })
+
+    var input = document.getElementById('input');
+    input.focus();
+</script>
+
+</body>
+</html>
