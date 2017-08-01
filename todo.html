@@ -15,12 +15,14 @@
 </div>
 
 <script>
+    const data = {
+        newTask: '',
+        tasks: [],
+    };
+
     var app = new Vue({
         el: '#app',
-        data: {
-            newTask: '',
-            tasks: [],
-        },
+        data: data,
         methods: {
             addTask: function() {
                 this.tasks.push(this.newTask);
