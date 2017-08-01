@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script src="https://unpkg.com/vue"></script>
+    <script src="polyfills.js"></script>
 </head>
 <body>
 
 <div id="app">
     <input v-model="newTask" v-on:keyup.enter="addTask" id="input">
     <ul>
-        <li v-for="(task, index) in tasks">{{ index }} {{ task }} <button v-on:click="removeTask(index)">remove</button></li>
+        <li v-for="task in tasks">{{ task }}<button v-on:click="removeTask(task)">remove</button></li>
     </ul>
 </div>
 
@@ -28,8 +29,8 @@
                 this.tasks.push(this.newTask);
                 this.newTask = '';
             },
-            removeTask: function(index) {
-                this.tasks.splice(index, 1)
+            removeTask: function (task) {
+                this.tasks.remove(task);
             },
         },
     })
