@@ -26,6 +26,7 @@
         data: data,
         methods: {
             addTask: function () {
+                if (this.newTask === '') return;
                 this.tasks.push(this.newTask);
                 this.newTask = '';
             },
