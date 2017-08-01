@@ -11,11 +11,29 @@
 <div id="app">
     <input v-model="newTask" v-on:keyup.enter="addTask" id="input">
     <ul>
-        <li v-for="task in tasks">{{ task }}<button v-on:click="removeTask(task)">remove</button></li>
+        <todo-item v-for="task in tasks"
+                   v-bind:task="task"
+                   v-on:remove="removeTask(task)"
+        ></todo-item>
     </ul>
 </div>
 
 <script>
+    Vue.component('todo-item', {
+        props: ['task'],
+        template: `
+            <li>
+                {{ task.id }} - {{ task.text }}
+                <a href="#" v-on:click="removeTask">削除</a>
+            </li>
+        `,
+        methods: {
+            removeTask: function () {
+                this.$emit('remove');
+            },
+        },
+    });
+
     const data = {
         newTask: '',
         tasks: [],
@@ -27,7 +45,12 @@
         methods: {
             addTask: function () {
                 if (this.newTask === '') return;
-                this.tasks.push(this.newTask);
+                const ids = this.tasks.map(x => x.id);
+                const nextId = Math.max.apply(null, ids.concat([0])) + 1;
+                this.tasks.push({
+                    id: nextId,
+                    text: this.newTask,
+                });
                 this.newTask = '';
             },
             removeTask: function (task) {
