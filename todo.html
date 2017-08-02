@@ -24,7 +24,9 @@
     Vue.component('todo-item', {
         template: `
             <li>
-                {{ task.id }} - {{ task.text }}
+                {{ task.id }}
+                <input
+                v-model="task.text">
                 <a href="#" v-on:click="removeTask">削除</a>
             </li>
         `,
