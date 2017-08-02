@@ -20,13 +20,13 @@
 
 <script>
     Vue.component('todo-item', {
-        props: ['task'],
         template: `
             <li>
                 {{ task.id }} - {{ task.text }}
                 <a href="#" v-on:click="removeTask">削除</a>
             </li>
         `,
+        props: ['task'],
         methods: {
             removeTask: function () {
                 this.$emit('remove');
