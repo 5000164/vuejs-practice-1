@@ -11,10 +11,12 @@
 <div id="app">
     <input v-model="newTask" v-on:keyup.enter="addTask" id="input">
     <ul>
-        <todo-item v-for="task in tasks"
-                   v-bind:task="task"
-                   v-on:remove="removeTask(task)"
-        ></todo-item>
+        <todo-item
+                v-for="task in tasks"
+                :task="task"
+                :key="task.id"
+                v-on:remove="removeTask(task)">
+        </todo-item>
     </ul>
 </div>
 
