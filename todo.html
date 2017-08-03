@@ -32,11 +32,12 @@
         template: `
             <li>
                 {{ task.id }}
-                <input
-                v-if="editMode"
-                v-model="task.text"
-                v-focus
-                @blur="editMode = false">
+                <form v-if="editMode" @submit.prevent="editMode = false" style="display: inline;">
+                    <input
+                        v-model="task.text"
+                        v-focus
+                        @blur="editMode = false">
+                </form>
                 <span v-else @click="editMode = true">{{ task.text }}</span>
                 <a href="#" v-on:click="removeTask">削除</a>
             </li>
