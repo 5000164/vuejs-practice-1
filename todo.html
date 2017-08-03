@@ -15,7 +15,7 @@
                 v-for="task in tasks"
                 :task="task"
                 :key="task.id"
-                v-on:remove="removeTask(task)">
+                @remove="removeTask(task)">
         </todo-item>
     </ul>
 </div>
