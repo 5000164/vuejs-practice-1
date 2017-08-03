@@ -6,6 +6,12 @@
     <script src="https://unpkg.com/vue"></script>
     <script src="linq.min.js"></script>
     <script src="polyfills.js"></script>
+
+    <style>
+        .done {
+            text-decoration: line-through;
+        }
+    </style>
 </head>
 <body>
 
@@ -31,14 +37,14 @@
     Vue.component('todo-item', {
         template: `
             <li>
-                {{ task.id }}
+                <input type="checkbox" v-model="task.done">
                 <form v-if="editMode" @submit.prevent="editMode = false" style="display: inline;">
                     <input
                         v-model="task.text"
                         v-focus
                         @blur="editMode = false">
                 </form>
-                <span v-else @click="editMode = true">{{ task.text }}</span>
+                <span v-else @click="editMode = true" :class="{ done: task.done }">{{ task.text }}</span>
                 <a href="#" v-on:click="removeTask">削除</a>
             </li>
         `,
@@ -73,6 +79,7 @@
                 this.tasks.push({
                     id: nextId,
                     text: this.newTask,
+                    done: false,
                 });
                 this.newTask = '';
             },
