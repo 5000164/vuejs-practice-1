@@ -22,6 +22,12 @@
 </div>
 
 <script>
+    Vue.directive('focus', {
+        inserted: function (el) {
+            el.focus();
+        },
+    });
+
     Vue.component('todo-item', {
         template: `
             <li>
@@ -29,6 +35,7 @@
                 <input
                 v-if="editMode"
                 v-model="task.text"
+                v-focus
                 @blur="editMode = false">
                 <span v-else @click="editMode = true">{{ task.text }}</span>
                 <a href="#" v-on:click="removeTask">削除</a>
