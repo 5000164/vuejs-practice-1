@@ -27,7 +27,10 @@
             <li>
                 {{ task.id }}
                 <input
-                v-model="task.text">
+                v-if="editMode"
+                v-model="task.text"
+                @blur="editMode = false">
+                <span v-else @click="editMode = true">{{ task.text }}</span>
                 <a href="#" v-on:click="removeTask">削除</a>
             </li>
         `,
@@ -36,6 +39,11 @@
             removeTask: function () {
                 this.$emit('remove');
             },
+        },
+        data: function () {
+            return {
+                editMode: false,
+            }
         },
     });
 
