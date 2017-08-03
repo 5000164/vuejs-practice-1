@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script src="https://unpkg.com/vue"></script>
+    <script src="linq.min.js"></script>
     <script src="polyfills.js"></script>
 </head>
 <body>
@@ -15,18 +16,29 @@
                 v-for="task in tasks"
                 :task="task"
                 :key="task.id"
-                v-on:remove="removeTask(task)">
+                @remove="removeTask(task)">
         </todo-item>
     </ul>
 </div>
 
 <script>
+    Vue.directive('focus', {
+        inserted: function (el) {
+            el.focus();
+        },
+    });
+
     Vue.component('todo-item', {
         template: `
             <li>
                 {{ task.id }}
-                <input
-                v-model="task.text">
+                <form v-if="editMode" @submit.prevent="editMode = false" style="display: inline;">
+                    <input
+                        v-model="task.text"
+                        v-focus
+                        @blur="editMode = false">
+                </form>
+                <span v-else @click="editMode = true">{{ task.text }}</span>
                 <a href="#" v-on:click="removeTask">削除</a>
             </li>
         `,
@@ -35,6 +47,11 @@
             removeTask: function () {
                 this.$emit('remove');
             },
+        },
+        data: function () {
+            return {
+                editMode: false,
+            }
         },
     });
 
@@ -49,8 +66,10 @@
         methods: {
             addTask: function () {
                 if (this.newTask === '') return;
-                const ids = this.tasks.map(x => x.id);
-                const nextId = Math.max.apply(null, ids.concat([0])) + 1;
+                const nextId = Enumerable.from(this.tasks)
+                    .select(x => x.id)
+                    .concat([0])
+                    .max() + 1;
                 this.tasks.push({
                     id: nextId,
                     text: this.newTask,
