@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script src="https://unpkg.com/vue"></script>
+    <script src="linq.min.js"></script>
     <script src="polyfills.js"></script>
 </head>
 <body>
@@ -49,8 +50,10 @@
         methods: {
             addTask: function () {
                 if (this.newTask === '') return;
-                const ids = this.tasks.map(x => x.id);
-                const nextId = Math.max.apply(null, ids.concat([0])) + 1;
+                const nextId = Enumerable.from(this.tasks)
+                    .select(x => x.id)
+                    .concat([0])
+                    .max() + 1;
                 this.tasks.push({
                     id: nextId,
                     text: this.newTask,
